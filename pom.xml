@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.jboss.qa.appsint</groupId>
+    <artifactId>micprofile-reactive-messaging-amqp-connector-example</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>war</packaging>
+    <name>MicroProfile Reactive Messaging with AMQP Connector Example</name>
+
+    <properties>
+        <version.jakarta.enterprise.cdi-api>4.0.1</version.jakarta.enterprise.cdi-api>
+        <version.microprofile-reactive-messaging-api>3.0</version.microprofile-reactive-messaging-api>
+        <version.jakarta.ws.rs-api>3.1.0</version.jakarta.ws.rs-api>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>jakarta.enterprise</groupId>
+            <artifactId>jakarta.enterprise.cdi-api</artifactId>
+            <scope>provided</scope>
+            <version>${version.jakarta.enterprise.cdi-api}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>jakarta.ws.rs</groupId>
+            <artifactId>jakarta.ws.rs-api</artifactId>
+            <version>${version.jakarta.ws.rs-api}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.eclipse.microprofile.reactive.messaging</groupId>
+            <artifactId>microprofile-reactive-messaging-api</artifactId>
+            <version>${version.microprofile-reactive-messaging-api}</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.4.0</version>
+                <configuration>
+                    <attachClasses>true</attachClasses>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.wildfly.plugins</groupId>
+                <artifactId>wildfly-maven-plugin</artifactId>
+                <version>5.0.0.Beta3</version>
+                <configuration>
+                    <packaging-scripts>
+                        <packaging-script>
+                            <scripts>
+                                <script>./scripts/config.cli</script>
+                            </scripts>
+                        </packaging-script>
+                    </packaging-scripts>
+                    <bootable-jar>true</bootable-jar>
+                    <discover-provisioning-info>
+                        <verbose>true</verbose>
+                        <suggest>true</suggest>
+                    </discover-provisioning-info>
+                    <runtime-name>ROOT.war</runtime-name>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>package</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!--            <plugin>-->
+            <!--                <groupId>org.wildfly.plugins</groupId>-->
+            <!--                <artifactId>wildfly-jar-maven-plugin</artifactId>-->
+            <!--                <version>11.0.0.Beta1</version>-->
+            <!--                <configuration>-->
+            <!--                    <feature-pack-location>-->
+            <!--                        wildfly@maven(org.jboss.universe:community-universe)#31.0.1.Final-->
+            <!--                    </feature-pack-location>-->
+            <!--                    <display-cli-scripts-output>true</display-cli-scripts-output>-->
+            <!--                    <layers>-->
+            <!--                        <layer>jaxrs</layer>-->
+            <!--                        <layer>microprofile-reactive-messaging-amqp</layer>-->
+            <!--                    </layers>-->
+            <!--                    <excluded-layers>-->
+            <!--                        <layer>deployment-scanner</layer>-->
+            <!--                    </excluded-layers>-->
+            <!--                    <cli-sessions>-->
+            <!--                        <cli-session>-->
+            <!--                            <script-files>-->
+            <!--                                ./scripts/config.cli-->
+            <!--                            </script-files>-->
+            <!--                        </cli-session>-->
+            <!--                    </cli-sessions>-->
+            <!--                    <plugin-options>-->
+            <!--                        <jboss-maven-dist/>-->
+            <!--                        <jboss-fork-embedded>false</jboss-fork-embedded>-->
+            <!--                    </plugin-options>-->
+            <!--                </configuration>-->
+            <!--                <executions>-->
+            <!--                    <execution>-->
+            <!--                        <goals>-->
+            <!--                            <goal>package</goal>-->
+            <!--                        </goals>-->
+            <!--                    </execution>-->
+            <!--                </executions>-->
+            <!--            </plugin>-->
+        </plugins>
+    </build>
+</project>
